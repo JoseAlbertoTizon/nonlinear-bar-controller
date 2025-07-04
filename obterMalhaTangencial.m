@@ -6,8 +6,8 @@ planta = obterPlanta();
 g = planta.g;
 
 % Requisitos
-tr = getfieldSafe(requisitos, {'x','tr'});
-Mp = getfieldSafe(requisitos, {'x','Mp'});
+tr = requisitos.x.tr;
+Mp = requisitos.x.Mp;
 
 if isempty(tr) || isempty(Mp)
     error('Requisitos mínimos (tr e Mp) não fornecidos.');
@@ -49,20 +49,32 @@ switch upper(ctrlType)
         num = [Kd, Kp, Ki];
         den = [1/g, Kd, Kp, Ki];
         dinamica = tf(num, den);
-
+    
+    case 'LEAD'
+        alpha = 5/(7*(1+10*xi^2));
+        T = (1+10*xi^2)/(5*xi*wn);
+        K = 5*wn^2/(7*(-g));
+        num = [K*(-g)*T, K*(-g)];
+        den = [alpha*T, 1, K*(-g)*T, K*(-g)];
+        dinamica = tf(num, den);
+    
     otherwise
-        error('Tipo de controlador inválido. Use: P, PD, PI, PID, PV');
+        error('Tipo de controlador inválido. Use: P, PD, PI, PID ou LEAD');
 end
 
-% Estrutura de saída com nomes corretos
 controlador.Type = ctrlType;
 controlador.Kp = Kp;
 controlador.Ki = Ki;
 controlador.Kd = Kd;
 
+if strcmp(ctrlType, 'LEAD')
+    controlador.K = K;
+    controlador.alpha = alpha;
+    controlador.T = T;
+else
+    controlador.Kp = Kp;
+    controlador.Ki = Ki;
+    controlador.Kd = Kd;
 end
 
-function v = getfieldSafe(st, path)
-    try v = getfield(st, path{:});
-    catch, v = []; end
 end

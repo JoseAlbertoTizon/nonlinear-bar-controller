@@ -1,13 +1,12 @@
-function simulacao = simularRampa(xr, requisitos, plotarGraficos)
+function simulacao = simularRampa(ctrlTypeAng, ctrlTypeTan, xr, requisitos, plotarGraficos)
 
 planta = obterPlanta();
 saturacoes = obterValoresSaturacao();
-[~,controlador.theta] = obterMalhaAngular(requisitos);
-[~,controlador.x] = obterMalhaTangencial(requisitos);
+[~,controlador.theta] = obterMalhaAngular(ctrlTypeAng, requisitos);
+[~,controlador.x] = obterMalhaTangencial(ctrlTypeTan, requisitos);
 tf = 50;
 
 controlador.g = planta.g;
-
 
 % Transformar xr em um vetor constante
 xr = [0, xr; tf, xr];
@@ -25,9 +24,11 @@ load_system('controladorRampa');
 
 % Configurando o tempo final de simulacao
 set_param('controladorRampa', 'StopTime', sprintf('%g', tf));
-
-% Rodando a simulacao
-simulacao = sim('controladorRampa');
+if strcmp(controlador.Type, 'LEAD')
+    simulacao = sim('controladorLEAD');
+else
+    simulacao = sim('controladorRampa');
+end
 
 % Plotar gráficos t por x e t por theta
 t = simulacao.tout;
