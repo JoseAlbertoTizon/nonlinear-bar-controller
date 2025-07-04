@@ -1,4 +1,10 @@
-function gerarAnimacao(t, x, theta)
+function gerarAnimacao(xr)
+    
+    simulacao = simularRampa(xr);
+    t = simulacao.tout;
+    x = simulacao.x.signals.values;
+    theta = simulacao.theta.signals.values;
+
     % animateBallOnBar Animate a ball on a rotating infinite bar
     % Inputs:
     %   t     - [N×1] time vector

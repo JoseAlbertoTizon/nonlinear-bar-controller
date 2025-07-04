@@ -1,7 +1,10 @@
-function dinamica = obterMalhaAngular(requisitos, planta)
+function [dinamica, controlador] = obterMalhaAngular()
 
-tr = requisitos.tr;
-Mp = requisitos.Mp;
+planta = obterPlanta();
+requisitos = obterRequisitos();
+
+tr = requisitos.theta.tr;
+Mp = requisitos.theta.Mp;
 
 J = planta.J;
 
@@ -15,5 +18,8 @@ J = planta.J;
 
 s = tf('s');
 dinamica = (Kp*Kv)/(J*s^2+Kv*s+Kp*Kv);
+
+controlador.Kv = Kv;
+controlador.Kp = Kp;
 
 end
