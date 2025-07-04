@@ -1,10 +1,10 @@
-function simulacao = simularRampa(xr)
+function simulacao = simularRampa(xr, requisitos, plotarGraficos)
 
 planta = obterPlanta();
 saturacoes = obterValoresSaturacao();
-[~,controlador.theta] = obterMalhaAngular();
-[~,controlador.x] = obterMalhaTangencial();
-tf = 10;
+[~,controlador.theta] = obterMalhaAngular(requisitos);
+[~,controlador.x] = obterMalhaTangencial(requisitos);
+tf = 50;
 
 controlador.g = planta.g;
 
@@ -34,20 +34,22 @@ t = simulacao.tout;
 x = simulacao.x.signals.values;
 theta = simulacao.theta.signals.values;
 
-figure;
-
-subplot(2,1,1);
-plot(t, x, 'LineWidth', 1.5);
-grid on;
-xlabel('Tempo (s)');
-ylabel('Posição x (m)');
-title('Resposta da posição x(t)');
-
-subplot(2,1,2);
-plot(t, theta, 'LineWidth', 1.5);
-grid on;
-xlabel('Tempo (s)');
-ylabel('\theta (rad)');
-title('Resposta do ângulo \theta(t)');
+if(plotarGraficos)
+    %figure;
+    
+    subplot(2,1,1);
+    plot(t, x, 'LineWidth', 1.5);
+    grid on;
+    xlabel('Tempo (s)');
+    ylabel('Posição x (m)');
+    title('Resposta da posição x(t)');
+    
+    subplot(2,1,2);
+    plot(t, theta, 'LineWidth', 1.5);
+    grid on;
+    xlabel('Tempo (s)');
+    ylabel('\theta (rad)');
+    title('Resposta do ângulo \theta(t)');
+end
 
 end

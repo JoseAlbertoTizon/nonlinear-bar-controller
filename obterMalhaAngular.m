@@ -1,7 +1,6 @@
-function [dinamica, controlador] = obterMalhaAngular()
+function [dinamica, controlador] = obterMalhaAngular(requisitos)
 
 planta = obterPlanta();
-requisitos = obterRequisitos();
 
 tr = requisitos.theta.tr;
 Mp = requisitos.theta.Mp;

@@ -1,0 +1,43 @@
+% Varredura de xr de 0.1 até 20 com passo 0.1
+valores_xr = 1:0.1:20;
+
+% Varredura de Mp de 0.01 até 0.5 com passo 0.001 (ajuste conforme necessário)
+valores_Mp = 0.01:0.001:0.5;
+
+% Vetor para armazenar Mp crítico para cada xr
+Mp_instabilizante = nan(size(valores_xr));
+
+for i = 1:length(valores_xr)
+    xr_valor = valores_xr(i);
+    fprintf("Testando xr = %.2f\n", xr_valor);
+
+    for Mp = valores_Mp
+        % Obter estrutura de requisitos e definir Mp
+        requisitos = obterRequisitos();
+        requisitos.x.Mp = Mp;
+
+        try
+            % Simular com xr escalar
+            simulacao = simularRampa(xr_valor, requisitos);
+            estados = simulacao.x.signals.values;
+
+            % Critério de instabilidade: valor muito grande
+            if max(abs(estados), [], 'all') > 1e3
+                Mp_instabilizante(i) = Mp;
+                fprintf(">> Instabilidade para xr = %.2f com Mp = %.4f\n", xr_valor, Mp);
+                break;
+            end
+        catch
+            fprintf("!! Erro na simulação para xr = %.2f com Mp = %.4f\n", xr_valor, Mp);
+            break;
+        end
+    end
+end
+
+% Plotando resultado
+figure;
+plot(valores_xr, Mp_instabilizante, 'b.-');
+xlabel('xr');
+ylabel('Mp crítico');
+title('Mp mínimo que instabiliza o sistema para cada valor de xr');
+grid on;
