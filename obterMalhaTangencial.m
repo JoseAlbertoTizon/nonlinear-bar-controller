@@ -1,7 +1,6 @@
-function [dinamica, controlador] = obterMalhaTangencial()
+function [dinamica, controlador] = obterMalhaTangencial(requisitos)
 
 planta = obterPlanta();
-requisitos = obterRequisitos();
 
 tr = requisitos.x.tr;
 Mp = requisitos.x.Mp;
