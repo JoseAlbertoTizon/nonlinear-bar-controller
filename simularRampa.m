@@ -1,12 +1,13 @@
-function simulacao = simularRampa(ctrlTypeAng, ctrlTypeTan, xr, requisitos, plotarGraficos)
+function simulacao = simularRampa(xr)
 
 planta = obterPlanta();
 saturacoes = obterValoresSaturacao();
-[~,controlador.theta] = obterMalhaAngular(ctrlTypeAng, requisitos);
-[~,controlador.x] = obterMalhaTangencial(ctrlTypeTan, requisitos);
-tf = 50;
+[~,controlador.theta] = obterMalhaAngular();
+[~,controlador.x] = obterMalhaTangencial();
+tf = 10;
 
 controlador.g = planta.g;
+
 
 % Transformar xr em um vetor constante
 xr = [0, xr; tf, xr];
@@ -24,33 +25,29 @@ load_system('controladorRampa');
 
 % Configurando o tempo final de simulacao
 set_param('controladorRampa', 'StopTime', sprintf('%g', tf));
-if strcmp(controlador.Type, 'LEAD')
-    simulacao = sim('controladorLEAD');
-else
-    simulacao = sim('controladorRampa');
-end
+
+% Rodando a simulacao
+simulacao = sim('controladorRampa');
 
 % Plotar gráficos t por x e t por theta
 t = simulacao.tout;
 x = simulacao.x.signals.values;
 theta = simulacao.theta.signals.values;
 
-if(plotarGraficos)
-    %figure;
-    
-    subplot(2,1,1);
-    plot(t, x, 'LineWidth', 1.5);
-    grid on;
-    xlabel('Tempo (s)');
-    ylabel('Posição x (m)');
-    title('Resposta da posição x(t)');
-    
-    subplot(2,1,2);
-    plot(t, theta, 'LineWidth', 1.5);
-    grid on;
-    xlabel('Tempo (s)');
-    ylabel('\theta (rad)');
-    title('Resposta do ângulo \theta(t)');
-end
+figure;
+
+subplot(2,1,1);
+plot(t, x, 'LineWidth', 1.5);
+grid on;
+xlabel('Tempo (s)');
+ylabel('Posição x (m)');
+title('Resposta da posição x(t)');
+
+subplot(2,1,2);
+plot(t, theta, 'LineWidth', 1.5);
+grid on;
+xlabel('Tempo (s)');
+ylabel('\theta (rad)');
+title('Resposta do ângulo \theta(t)');
 
 end
