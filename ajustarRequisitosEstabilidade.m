@@ -3,10 +3,6 @@ function [requisitos_corrigido, J_min] = ajustarRequisitosEstabilidade(xr, requi
 % com recuos progressivos caso o sistema continue instável
 % modo: 'ambos' ou 'tr'
 
-    if nargin < 3
-        modo = 'ambos';
-    end
-
     max_tentativas = 10;
 
     Mp_req = requisitos.x.Mp;
