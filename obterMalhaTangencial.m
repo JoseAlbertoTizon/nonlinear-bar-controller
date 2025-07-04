@@ -1,8 +1,16 @@
-function dinamica = obterMalhaTangencial(controlador, planta)
+function dinamica = obterMalhaTangencial(requisitos, planta)
 
-Kd = controlador.Kd;
-Kp = controlador.Kp;
-Ki = controlador.Ki;
+tr = requisitos.tr;
+Mp = requisitos.Mp;
+
+g = planta.g;
+
+xi = -log(Mp)/sqrt(pi^2+(log(Mp))^2);
+wn = (pi-acos(xi))/(sqrt(1-xi^2)*tr);
+
+Kd = 7*xi*wn/g;
+Kp = wn^2*(1+10*xi^2)/g;
+Ki = 5*xi*wn^3/g;
 
 g = planta.g;
 
