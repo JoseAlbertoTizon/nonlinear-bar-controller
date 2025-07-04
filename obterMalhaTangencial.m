@@ -50,14 +50,6 @@ switch upper(ctrlType)
         den = [1/g, Kd, Kp, Ki];
         dinamica = tf(num, den);
 
-    case 'PV'
-        Kp = wn^2 * g;
-        Kd = 2 * xi * wn * g;
-        Ki = 0;
-        num = [Kp];
-        den = [1/g, Kd, Kp];
-        dinamica = tf(num, den);
-
     otherwise
         error('Tipo de controlador inválido. Use: P, PD, PI, PID, PV');
 end
@@ -65,8 +57,8 @@ end
 % Estrutura de saída com nomes corretos
 controlador.Type = ctrlType;
 controlador.Kp = Kp;
-if exist('Ki','var') && Ki ~= 0, controlador.Ki = Ki; end
-if exist('Kd','var') && Kd ~= 0, controlador.Kd = Kd; end
+controlador.Ki = Ki;
+controlador.Kd = Kd;
 
 end
 
