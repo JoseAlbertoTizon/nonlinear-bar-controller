@@ -2,6 +2,9 @@ function simulacao = simularRampa(controlador, planta, saturacoes, tf, xr)
 
 controlador.g = planta.g;
 
+% Transformar xr em um vetor constante
+xr = [0, xr; tf, xr];
+
 % Configurando as variaveis usadas no Simulink
 assignin('base', 'xr', xr);
 assignin('base', 'x0', 0);
@@ -18,5 +21,26 @@ set_param('controladorRampa', 'StopTime', sprintf('%g', tf));
 
 % Rodando a simulacao
 simulacao = sim('controladorRampa');
+
+% Plotar gráficos t por x e t por theta
+t = simulacao.tout;
+x = simulacao.x.signals.values;
+theta = simulacao.theta.signals.values;
+
+figure;
+
+subplot(2,1,1);
+plot(t, x, 'LineWidth', 1.5);
+grid on;
+xlabel('Tempo (s)');
+ylabel('Posição x (m)');
+title('Resposta da posição x(t)');
+
+subplot(2,1,2);
+plot(t, theta, 'LineWidth', 1.5);
+grid on;
+xlabel('Tempo (s)');
+ylabel('\theta (rad)');
+title('Resposta do ângulo \theta(t)');
 
 end
