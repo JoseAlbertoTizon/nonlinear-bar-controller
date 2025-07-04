@@ -1,7 +1,15 @@
-function dinamica = obterMalhaAngular(controlador, planta)
+function dinamica = obterMalhaAngular(requisitos, planta)
 
-Kp = controlador.Kp;
-Kv = controlador.Kv;
+tr = requisitos.tr;
+Mp = requisitos.Mp;
+
+J = planta.J;
+
+xi = -log(Mp)/sqrt(pi^2+(log(Mp))^2);
+wn = (pi-acos(xi))/(sqrt(1-xi^2)*tr);
+
+Kv = 2*xi*wn*J;
+Kp = wn/(2*xi);
 
 J = planta.J;
 
