@@ -1,7 +1,10 @@
-function dinamica = obterMalhaTangencial(requisitos, planta)
+function [dinamica, controlador] = obterMalhaTangencial()
 
-tr = requisitos.tr;
-Mp = requisitos.Mp;
+planta = obterPlanta();
+requisitos = obterRequisitos();
+
+tr = requisitos.x.tr;
+Mp = requisitos.x.Mp;
 
 g = planta.g;
 
@@ -16,5 +19,9 @@ g = planta.g;
 
 s = tf('s');
 dinamica = Ki/((1/g)*s^3+Kd*s^2+Kp*s+Ki);
+
+controlador.Kd = Kd;
+controlador.Kp = Kp;
+controlador.Ki = Ki;
 
 end
