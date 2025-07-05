@@ -1,4 +1,4 @@
-function simulacao = simularRampa(xr, tipo, requisito)
+function simulacao = simularBarra(xr, tipo, requisito)
 
 planta = obterPlanta();
 saturacoes = obterValoresSaturacao();

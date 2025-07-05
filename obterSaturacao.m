@@ -1,4 +1,4 @@
-function saturacoes = obterValoresSaturacao()
+function saturacoes = obterSaturacao()
 
 sat_theta = 80 * pi / 180;
 sat_dtheta = 1;
