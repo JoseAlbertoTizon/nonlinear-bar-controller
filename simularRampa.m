@@ -32,21 +32,37 @@ simulacao = sim('controladorRampa');
 t = simulacao.tout;
 x = simulacao.x.signals.values;
 theta = simulacao.theta.signals.values;
+tau = simulacao.tau.signals.values;
+dx = simulacao.dx.signals.values;
 
 figure;
 
-subplot(2,1,1);
+subplot(2,2,1);
 plot(t, x, 'LineWidth', 1.5);
 grid on;
 xlabel('Tempo (s)');
 ylabel('Posição x (m)');
-title('Resposta da posição x(t)');
+title('Resposta da posição x');
 
-subplot(2,1,2);
+subplot(2,2,2);
 plot(t, theta, 'LineWidth', 1.5);
 grid on;
 xlabel('Tempo (s)');
 ylabel('\theta (rad)');
-title('Resposta do ângulo \theta(t)');
+title('Resposta do ângulo \theta');
+
+subplot(2,2,3);
+plot(t, tau, 'LineWidth', 1.5);
+grid on;
+xlabel('Tempo (s)');
+ylabel('\tau (N\cdotm)');
+title('Resposta do torque \tau');
+
+subplot(2,2,4);
+plot(t, dx, 'LineWidth', 1.5);
+grid on;
+xlabel('Tempo (s)');
+ylabel('Velocidade dx (m/s)');
+title('Resposta da velocidade dx');
 
 end

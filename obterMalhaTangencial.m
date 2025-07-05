@@ -23,6 +23,9 @@ switch upper(requisito)
     case 'C'
         xi = -log(Mp)/sqrt(pi^2+(log(Mp))^2);
         wn = 3/(xi*ts);
+    
+    otherwise
+        error('Tipo de requisito inválido. Use: A, B ou C (Veja a documentacao)');
 end
 
 s = tf('s');
