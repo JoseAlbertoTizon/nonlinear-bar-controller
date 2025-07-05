@@ -64,6 +64,17 @@ switch upper(tipo)
         controlador.Kp = Kp;
         controlador.Ki = Ki;
         controlador.F = 0;
+    case 'DI'
+        Kd = (wn-4*xi^2*wn)/(2*xi*g);
+        Kp = 0;
+        Ki = wn^3/(2*xi*g);
+
+        dinamica = Ki/((1/g)*s^3+Kd*s^2+Ki);
+
+        controlador.Kd = Kd;
+        controlador.Kp = Kp;
+        controlador.Ki = Ki;
+        controlador.F = 0;
     case 'P'
         Kd = 0;
         Kp = wn^2/g;
@@ -75,8 +86,7 @@ switch upper(tipo)
         controlador.Kp = Kp;
         controlador.Ki = Ki;
         controlador.F = 1;
-
     otherwise
-        error('Tipo de controlador inválido. Use: P, PD, PI ou PID');
+        error('Tipo de controlador inválido. Use: P, PD, PI, DI, PID');
 end
 end

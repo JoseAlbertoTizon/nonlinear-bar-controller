@@ -1,6 +1,6 @@
 function gerarAnimacao(xr, tipo, requisito)
     
-    simulacao = simularRampa(xr, tipo, requisito);
+    simulacao = simularBarra(xr, tipo, requisito);
     t = simulacao.tout;
     x = simulacao.x.signals.values;
     theta = simulacao.theta.signals.values;

@@ -1,10 +1,10 @@
 function simulacao = simularBarra(xr, tipo, requisito)
 
 planta = obterPlanta();
-saturacoes = obterValoresSaturacao();
+saturacoes = obterSaturacao();
 [~,controlador.theta] = obterMalhaAngular();
 [~,controlador.x] = obterMalhaTangencial(tipo, requisito);
-tf = 10;
+tf = 20;
 
 controlador.g = planta.g;
 
@@ -20,13 +20,13 @@ assignin('base', 'planta', planta);
 assignin('base', 'saturacoes', saturacoes);
 
 % Carregando o Simulink
-load_system('controladorRampa');
+load_system('controladorBarra');
 
 % Configurando o tempo final de simulacao
-set_param('controladorRampa', 'StopTime', sprintf('%g', tf));
+set_param('controladorBarra', 'StopTime', sprintf('%g', tf));
 
 % Rodando a simulacao
-simulacao = sim('controladorRampa');
+simulacao = sim('controladorBarra');
 
 % Plotar gráficos t por x e t por theta
 t = simulacao.tout;
