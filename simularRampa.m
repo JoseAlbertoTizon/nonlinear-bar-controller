@@ -1,9 +1,9 @@
-function simulacao = simularRampa(xr, tipo)
+function simulacao = simularRampa(xr, tipo, requisito)
 
 planta = obterPlanta();
 saturacoes = obterValoresSaturacao();
 [~,controlador.theta] = obterMalhaAngular();
-[~,controlador.x] = obterMalhaTangencial(tipo);
+[~,controlador.x] = obterMalhaTangencial(tipo, requisito);
 tf = 10;
 
 controlador.g = planta.g;

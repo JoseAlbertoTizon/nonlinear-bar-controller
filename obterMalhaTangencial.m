@@ -1,15 +1,29 @@
-function [dinamica, controlador] = obterMalhaTangencial(tipo)
+function [dinamica, controlador] = obterMalhaTangencial(tipo, requisito)
 
 planta = obterPlanta();
 requisitos = obterRequisitos();
 
 tr = requisitos.x.tr;
 Mp = requisitos.x.Mp;
+tp = requisitos.x.tp;
+ts = requisitos.x.ts;
 
 g = planta.g;
 
-xi = -log(Mp)/sqrt(pi^2+(log(Mp))^2);
-wn = (pi-acos(xi))/(sqrt(1-xi^2)*tr);
+%%Requisito tipo a: Mp e tr, b: Mp e tp, c: Mp e ts
+switch upper(requisito)
+    case 'A'
+        xi = -log(Mp)/sqrt(pi^2+(log(Mp))^2);
+        wn = (pi-acos(xi))/(sqrt(1-xi^2)*tr);
+    
+    case 'B'
+        xi = -log(Mp)/sqrt(pi^2+(log(Mp))^2);
+        wn = pi/(sqrt(1-xi^2)*tp);
+
+    case 'C'
+        xi = -log(Mp)/sqrt(pi^2+(log(Mp))^2);
+        wn = 3/(xi*ts);
+end
 
 s = tf('s');
 
@@ -58,4 +72,8 @@ switch upper(tipo)
         controlador.Kp = Kp;
         controlador.Ki = Ki;
         controlador.F = 1;
+
+    otherwise
+        error('Tipo de controlador inválido. Use: P, PD, PI ou PID');
+end
 end
