@@ -4,14 +4,7 @@ function gerarAnimacao(xr)
     t = simulacao.tout;
     x = simulacao.x.signals.values;
     theta = simulacao.theta.signals.values;
-
-    % animateBallOnBar Animate a ball on a rotating infinite bar
-    % Inputs:
-    %   t     - [N×1] time vector
-    %   x     - [N×1] scalar ball position along bar (signed)
-    %   theta - [N×1] bar angle (radians, 0 = horizontal)
-
-    % --- Hardcoded speed control ---
+    
     speedFactor = 0.9;  % < 1 slows down the animation
 
     % Set up figure
@@ -20,8 +13,8 @@ function gerarAnimacao(xr)
               'YLim',[-max(abs(x))*1.5, max(abs(x))*1.5], ...
               'DataAspectRatio',[1,1,1]);
     hold(ax,'on');
-    barLine = plot(ax, [0,0], [0,0], 'k-', 'LineWidth',2);
-    ball = plot(ax, NaN, NaN, 'ro', 'MarkerSize',8, 'MarkerFaceColor','r');
+    barLine = plot(ax, [0,0], [0,0], 'k-', 'LineWidth',1);
+    ball = plot(ax, NaN, NaN, 'ro', 'MarkerSize',6, 'MarkerFaceColor','r');
 
     % Animation loop
     for k = 1:length(t)
