@@ -1,11 +1,11 @@
-function gerarAnimacao(xr)
+function gerarAnimacao(xr, tipo)
     
-    simulacao = simularRampa(xr);
+    simulacao = simularRampa(xr, tipo);
     t = simulacao.tout;
     x = simulacao.x.signals.values;
     theta = simulacao.theta.signals.values;
     
-    speedFactor = 0.9;  % < 1 slows down the animation
+    speedFactor = 1;  % < 1 slows down the animation
 
     % Set up figure
     figure('Color','white');

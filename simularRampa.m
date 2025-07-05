@@ -1,13 +1,12 @@
-function simulacao = simularRampa(xr)
+function simulacao = simularRampa(xr, tipo)
 
 planta = obterPlanta();
 saturacoes = obterValoresSaturacao();
 [~,controlador.theta] = obterMalhaAngular();
-[~,controlador.x] = obterMalhaTangencial();
+[~,controlador.x] = obterMalhaTangencial(tipo);
 tf = 10;
 
 controlador.g = planta.g;
-
 
 % Transformar xr em um vetor constante
 xr = [0, xr; tf, xr];
