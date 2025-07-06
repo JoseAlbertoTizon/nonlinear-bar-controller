@@ -4,7 +4,7 @@ planta = obterPlanta();
 saturacoes = obterSaturacao();
 [~,controlador.theta] = obterMalhaAngular();
 [~,controlador.x] = obterMalhaTangencial(tipo, requisito);
-tf = 20;
+tf = 10;
 
 controlador.g = planta.g;
 
