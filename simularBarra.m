@@ -1,9 +1,17 @@
-function simulacao = simularBarra(xr, tipo, requisito)
+function simulacao = simularBarra(xr, tipo, tipoRequisito, plotarGraficos, requisitos)
 
 planta = obterPlanta();
 saturacoes = obterSaturacao();
 [~,controlador.theta] = obterMalhaAngular();
-[~,controlador.x] = obterMalhaTangencial(tipo, requisito);
+
+% Se os requisitos não forem fornecidos diretamente, serão obtidos de
+% obterRequisitos
+if nargin < 5
+    [~,controlador.x] = obterMalhaTangencial(tipo, tipoRequisito);
+else
+    [~,controlador.x] = obterMalhaTangencial(tipo, tipoRequisito, requisitos);
+end
+
 tf = 10;
 
 controlador.g = planta.g;
@@ -35,34 +43,37 @@ theta = simulacao.theta.signals.values;
 tau = simulacao.tau.signals.values;
 dx = simulacao.dx.signals.values;
 
-figure;
-
-subplot(2,2,1);
-plot(t, x, 'LineWidth', 1.5);
-grid on;
-xlabel('Tempo (s)');
-ylabel('Posição x (m)');
-title('Resposta da posição x');
-
-subplot(2,2,2);
-plot(t, theta, 'LineWidth', 1.5);
-grid on;
-xlabel('Tempo (s)');
-ylabel('\theta (rad)');
-title('Resposta do ângulo \theta');
-
-subplot(2,2,3);
-plot(t, tau, 'LineWidth', 1.5);
-grid on;
-xlabel('Tempo (s)');
-ylabel('\tau (N\cdotm)');
-title('Resposta do torque \tau');
-
-subplot(2,2,4);
-plot(t, dx, 'LineWidth', 1.5);
-grid on;
-xlabel('Tempo (s)');
-ylabel('Velocidade dx (m/s)');
-title('Resposta da velocidade dx');
+% Se plotarGraficos não for fornecido, será true
+if nargin < 4 || plotarGraficos
+    figure;
+    
+    subplot(2,2,1);
+    plot(t, x, 'LineWidth', 1.5);
+    grid on;
+    xlabel('Tempo (s)');
+    ylabel('Posição x (m)');
+    title('Resposta da posição x');
+    
+    subplot(2,2,2);
+    plot(t, theta, 'LineWidth', 1.5);
+    grid on;
+    xlabel('Tempo (s)');
+    ylabel('\theta (rad)');
+    title('Resposta do ângulo \theta');
+    
+    subplot(2,2,3);
+    plot(t, tau, 'LineWidth', 1.5);
+    grid on;
+    xlabel('Tempo (s)');
+    ylabel('\tau (N\cdotm)');
+    title('Resposta do torque \tau');
+    
+    subplot(2,2,4);
+    plot(t, dx, 'LineWidth', 1.5);
+    grid on;
+    xlabel('Tempo (s)');
+    ylabel('Velocidade dx (m/s)');
+    title('Resposta da velocidade dx');
+end
 
 end

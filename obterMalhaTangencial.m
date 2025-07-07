@@ -1,7 +1,11 @@
-function [dinamica, controlador] = obterMalhaTangencial(tipo, requisito)
+function [dinamica, controlador] = obterMalhaTangencial(tipo, tipoRequisito, requisitos)
 
 planta = obterPlanta();
-requisitos = obterRequisitos();
+
+% Argumento requisitos é opcional
+if nargin < 3
+    requisitos = obterRequisitos();
+end
 
 tr = requisitos.x.tr;
 Mp = requisitos.x.Mp;
@@ -11,7 +15,7 @@ ts = requisitos.x.ts;
 g = planta.g;
 
 %%Requisito tipo a: Mp e tr, b: Mp e tp, c: Mp e ts
-switch upper(requisito)
+switch upper(tipoRequisito)
     case 'A'
         xi = -log(Mp)/sqrt(pi^2+(log(Mp))^2);
         wn = (pi-acos(xi))/(sqrt(1-xi^2)*tr);
