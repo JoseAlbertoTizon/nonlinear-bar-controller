@@ -13,14 +13,9 @@ cores = {'r', 'g', 'b', 'm', 'c'};
 % Estruturas para armazenar resultados
 resultados = struct();
 
-fprintf('=== TESTE: Comparação de Controladores ===\n');
-fprintf('Posição desejada: %.1f m\n', xr);
-fprintf('Tipo de requisito: %s (Mp e tr)\n\n', tipoRequisito);
-
 % Executar simulações
 for i = 1:length(controladores)
     tipo = controladores{i};
-    fprintf('Simulando controlador %s...\n', tipo);
     try
         sim = simularBarra(xr, tipo, tipoRequisito, false);
         resultados.(tipo).t = sim.tout;
@@ -34,9 +29,7 @@ for i = 1:length(controladores)
         resultados.(tipo).ts = ts;
         resultados.(tipo).tp = tp;
         resultados.(tipo).ess = ess;
-        fprintf('  Mp: %.3f, tr: %.3f s, ts: %.3f s, ess: %.4f\n', Mp, tr, ts, ess);
     catch ME
-        fprintf('  ERRO: %s\n', ME.message);
         continue;
     end
 end
@@ -102,20 +95,6 @@ ylim(limites.tau);
 
 % Salvar figura
 saveas(gcf, 'comparacao_controladores.png');
-fprintf('\nGráfico salvo como: comparacao_controladores.png\n');
-
-% Mostrar tabela de resultados
-fprintf('\n=== TABELA DE RESULTADOS ===\n');
-fprintf('Controlador\tMp\ttr(s)\tts(s)\tess\n');
-fprintf('-------------------------------------------\n');
-for i = 1:length(controladores)
-    tipo = controladores{i};
-    if isfield(resultados, tipo)
-        fprintf('%s\t\t%.3f\t%.3f\t%.3f\t%.4f\n', tipo, ...
-                resultados.(tipo).Mp, resultados.(tipo).tr, ...
-                resultados.(tipo).ts, resultados.(tipo).ess);
-    end
-end
 
 end
 
@@ -145,103 +124,54 @@ if ~isempty(todas_posicoes)
     x_min = min(x_min, xr * 0.8);
     x_max = max(x_max, xr * 1.2);
     
-    % Adicionar margem de 20%
+    % Adicionar margem 
     margem_x = (x_max - x_min);
     limites.x = [x_min - margem_x, x_max + margem_x];
     
-    % Limitar valores extremos (máximo 10x a referência)
     limites.x(1) = max(limites.x(1), -10 * abs(xr));
     limites.x(2) = min(limites.x(2), 10 * abs(xr));
 else
     limites.x = [-1, 3] * abs(xr);
 end
 
-% Calcular limites para ângulo
 if ~isempty(todos_angulos)
     theta_min = min(todos_angulos);
     theta_max = max(todos_angulos);
     
-    % Adicionar margem de
     margem_theta = (theta_max - theta_min);
     if margem_theta == 0
-        margem_theta = 5; % Margem mínima de 5 graus
+        margem_theta = 5;
     end
     
     limites.theta = [theta_min - margem_theta, theta_max + margem_theta];
     
-    % Limitar valores extremos (máximo ±360 graus)
+    % Limitar valores extremos
     limites.theta(1) = max(limites.theta(1), -360);
     limites.theta(2) = min(limites.theta(2), 360);
 else
     limites.theta = [-30, 30];
 end
 
-% Calcular limites para torque
 if ~isempty(todos_torques)
     tau_min = min(todos_torques);
     tau_max = max(todos_torques);
     
-    % Adicionar margem de 20%
     margem_tau = 0.2 * (tau_max - tau_min);
     if margem_tau == 0
-        margem_tau = 5; % Margem mínima
+        margem_tau = 5;
     end
     
     limites.tau = [tau_min - margem_tau, tau_max + margem_tau];
     
-    % Limitar valores extremos baseado no percentil 90%
     tau_sorted = sort(abs(todos_torques));
     idx_90 = round(0.90 * length(tau_sorted));
     if idx_90 > 0
-        limite_extremo = tau_sorted(idx_90) * 3; % 3x o percentil 90%
+        limite_extremo = tau_sorted(idx_90) * 3;
         limites.tau(1) = max(limites.tau(1), -limite_extremo);
         limites.tau(2) = min(limites.tau(2), limite_extremo);
     end
 else
     limites.tau = [-10, 10];
-end
-
-% Mostrar limites calculados (comentado)
-% fprintf('\n=== LIMITES DOS GRÁFICOS ===\n');
-% fprintf('Posição: [%.2f, %.2f] m\n', limites.x(1), limites.x(2));
-% fprintf('Ângulo: [%.1f, %.1f] graus\n', limites.theta(1), limites.theta(2));
-% fprintf('Torque: [%.1f, %.1f] N·m\n', limites.tau(1), limites.tau(2));
-
-end
-
-function [Mp, tr, ts, tp, ess] = calcularMetricas(t, x, xr)
-% Calcula métricas de desempenho da resposta temporal
-
-% Valor final (steady-state)
-xss = x(end);
-ess = abs(xr - xss); % Erro em regime permanente
-
-% Valor de pico
-[xmax, idx_max] = max(x);
-Mp = (xmax - xss) / xss; % Sobressinal percentual
-tp = t(idx_max); % Tempo de pico
-
-% Tempo de subida (10% a 90% do valor final)
-x10 = 0.1 * xss;
-x90 = 0.9 * xss;
-idx10 = find(x >= x10, 1);
-idx90 = find(x >= x90, 1);
-if ~isempty(idx10) && ~isempty(idx90)
-    tr = t(idx90) - t(idx10);
-else
-    tr = NaN;
-end
-
-% Tempo de acomodação (±2% do valor final)
-tolerancia = 0.02 * abs(xss);
-for i = length(x):-1:1
-    if abs(x(i) - xss) > tolerancia
-        ts = t(i);
-        break;
-    end
-end
-if ~exist('ts', 'var')
-    ts = 0;
 end
 
 end
