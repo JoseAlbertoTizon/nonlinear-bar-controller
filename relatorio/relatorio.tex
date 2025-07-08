@@ -288,7 +288,6 @@ Na resposta angular, o PD se destaca novamente, controlando o ângulo da barra d
 
 A figura acima mostra as respostas do controlador PD para diferentes valores de referência de posição ($x_r$). Observa-se que, à medida que $x_r$ aumenta, o sobressinal tanto da posição ($x$) quanto do ângulo ($\theta$) também cresce, o que indica que o sistema passa a oscilar mais antes de atingir o regime permanente. Esse comportamento pode ser problemático em algumas aplicações. A análise do torque aplicado reforça que a malha de controle do ângulo reage de forma significativamente mais rápida do que a da posição — o que é esperado, já que o projeto foi pensado com uma malha interna (para o ângulo) mais ágil, enquanto a malha externa (para a posição) atua de forma mais suave sobre a argola. No entanto, para valores maiores de $x_r$, o sistema tende à instabilidade, pois as oscilações se acentuam. Isso ocorre porque termos não lineares, como a força centrífuga, tornam-se mais relevantes em posições distantes do centro, afetando a eficácia do controlador linear. Assim, é fundamental validar o controlador em simulações que incluam o modelo não linear completo.
 
-
 \subsection{Avaliação de diferentes tipos de requisitos}
 
 % Sexta
