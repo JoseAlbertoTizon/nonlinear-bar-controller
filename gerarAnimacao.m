@@ -5,9 +5,9 @@ function gerarAnimacao(xr, tipo, requisito)
     x = simulacao.x.signals.values;
     theta = simulacao.theta.signals.values;
     
-    speedFactor = 1;  % < 1 slows down the animation
+    speedFactor = 1; % Velocidade da animação
 
-    % Set up figure
+    % Gerar Gráficos
     figure('Color','white');
     ax = axes('XLim',[-max(abs(x))*1.5, max(abs(x))*1.5], ...
               'YLim',[-max(abs(x))*1.5, max(abs(x))*1.5], ...
@@ -16,7 +16,7 @@ function gerarAnimacao(xr, tipo, requisito)
     barLine = plot(ax, [0,0], [0,0], 'k-', 'LineWidth',1);
     ball = plot(ax, NaN, NaN, 'ro', 'MarkerSize',6, 'MarkerFaceColor','r');
 
-    % Animation loop
+    % Animação
     for k = 1:length(t)
         L = max(abs(x))*1.5;
         ang = theta(k);
@@ -24,8 +24,6 @@ function gerarAnimacao(xr, tipo, requisito)
         yy = [-L, L] * sin(ang);
         barLine.XData = xx;
         barLine.YData = yy;
-
-        % Ball position
         xb = x(k) * cos(ang);
         yb = x(k) * sin(ang);
         ball.XData = xb;

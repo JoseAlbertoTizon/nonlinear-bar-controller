@@ -1,5 +1,7 @@
 function [dinamica, controlador] = obterMalhaAngular()
 
+%Projeto da malha
+
 planta = obterPlanta();
 requisitos = obterRequisitos();
 
