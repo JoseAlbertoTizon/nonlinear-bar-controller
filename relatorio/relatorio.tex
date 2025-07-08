@@ -1,48 +1,30 @@
-\documentclass[a4paper, 12pt]{article}
-% Citações e Referências Bibliográficas 
-\usepackage{apacite} 
-\bibliographystyle{apacite} 
-\usepackage{etoolbox} 
-\renewcommand{\refname}{Referências Bibliográficas}
-
-% Alfabeto e fonte 
-\usepackage[utf8]{inputenc} 
-\usepackage[T1]{fontenc} 
-\usepackage{sectsty} 
-\sectionfont{\fontsize{15}{15}\selectfont} % diminuir tamanho do nome das seções pra caber em duas colunas
-\usepackage[brazilian]{babel} % Adiciona a opção "brazilian" para usar o idioma português brasileiro 
-\addto\captionsbrazilian{% Redefine o título da seção de referências}
-\renewcommand{\refname}{Referências Bibliográficas}% 
-\renewcommand{\figurename}{\textbf{Figura}} 
-\renewcommand{\tablename}{\textbf{Tabela}} 
-\usepackage[format=hang,font=small,labelfont=bf]{caption}
-
-% Formatação e margem 
-\usepackage[top=3.0cm,bottom=2.0cm,left=2.0cm,right=2.0cm, headheight=1.5cm]{geometry} 
-\usepackage{multicol}
-
-% Coisas da matemática 
-\usepackage{amsmath, amsfonts, amsthm, amssymb, physics}
-
-% Desenhos, gráficos e tabelas 
-\usepackage{tikz, siunitx, pbox, pgfplots, array, floatrow} 
-\usetikzlibrary{quotes, angles} 
-\floatsetup[table]{capposition=top} 
-\usepackage[export]{adjustbox}
-
-% Colocar equação dentro do retângulo 
-\usepackage[most]{tcolorbox} 
-\usepackage{framed}
-
-\usepackage{fancyhdr} % Cabeçalhos e rodapés 
-\usepackage{enumitem} % Enumeração 
-\usepackage{graphicx} % Imagens 
-\usepackage{titlesec} 
-\usepackage{lipsum} % Para gerar texto de exemplo, você pode remover isso no documento final 
+\documentclass[a4paper, 12pt]{article} % Tipo do arquivo
+\usepackage[utf8]{inputenc} % Fonte
+\usepackage[T1]{fontenc} % Fonte
+\usepackage[top=3.0cm,bottom=2.0cm,left=2.0cm,right=2.0cm, headheight=1.5cm]{geometry} % Formatação e margem
+\usepackage{fancyhdr} % Cabeçalhos e rodapés
+\usepackage[brazilian]{babel} % Deixa em português
+\usepackage{enumitem} % Enumeração
+\usepackage{siunitx}
+\usepackage{graphicx} % Imagens
+\usepackage{amsmath, amsfonts, amsthm, amssymb, bigints, physics} % Coisas da matemática
 \usepackage{indentfirst} % Identar primeiro parágrafo 
-\usepackage{float} % Formatação de Tabelas e Figuras 
-\usepackage{relsize}
-\usepackage{subcaption} % Para subfiguras
+\usepackage{float} % Formatação de Tabelas e Figuras
+\usepackage{lipsum} % Dummy text generator
+\usepackage{url}
+\usepackage{amsmath}
+\usepackage{titlesec}
+\usepackage{makecell}
+\titlelabel{\thetitle.\enskip}
+\pagestyle{fancy}
+\usepackage{booktabs}
+\renewcommand{\footrulewidth}{.3pt}
+\renewcommand{\headrulewidth}{.3pt}
+\usepackage{caption} 
+\usepackage{float}
+\usepackage{arydshln}
+\usepackage{booktabs}
+\usepackage{multirow}
 
 \pagestyle{fancy} 
 \renewcommand{\footrulewidth}{.3pt} 
@@ -278,14 +260,22 @@ As equações dos ganhos com base nos requisitos foram implementadas no matlab p
 
 \subsection{Comparação entre simuladores}
 
-Inicialmente, foi realizada uma comparação entre os tipos de controladores disponíveis para analisar qual deles se adequa melhor ao sistema ;;;
+Inicialmente, foi realizada uma comparação entre os tipos de controladores disponíveis para analisar qual deles é capaz de estabilizar. Nesse teste, foi realizada a simulação do sistema para referência fixa $x_r = 0,9$ e com requisitos fixos, de modo que a resposta dos diferentes tipos de compensador podem ser observadas na figura \ref{fig:resultado-controladores}.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.6\textwidth]{images/comparar-controlador.png}
-    \caption{\centering Tipos de controlador}
+    \includegraphics[width=0.8\textwidth]{images/comparar-controlador.png}
+    \caption{\centering Análise do comportamento do sistema para os diferentes tipos de controladores}
     \label{fig:resultado-controladores}
 \end{figure}
+
+Observa-se, na resposta de posição, que os controladores PD e PID são os únicos capazes de rastrear corretamente a referência, promovendo estabilização e erro de regime próximo de zero. Entre eles, o controlador PD apresentou o *melhor desempenho global*, com rápida convergência, menor sobrelevação e uso mais eficiente do esforço de controle.
+
+O controlador P resultou em um sistema *marginalmente estável*, caracterizado por oscilações sustentadas e ausência de amortecimento. Apesar de não divergir, o sistema não converge para a referência, evidenciando a limitação dessa estrutura em sistemas com dinâmicas acopladas.
+
+Os controladores PI e DI mostraram-se totalmente instáveis, apresentando crescimento exponencial da posição e do ângulo, com comportamento divergente e torques irrealisticamente elevados. Tal comportamento inviabiliza sua aplicação em qualquer cenário realista.
+
+Na resposta angular, o PD se destaca novamente, controlando o ângulo da barra de forma suave e eficiente. O PID, embora estável, apresentou resposta mais lenta e esforço de controle mais elevado que o PD, além de apresentar mais oscilação para estabilizar na posição de referência.
 
 \subsection{Avaliação de diferentes referências}
 
