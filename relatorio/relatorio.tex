@@ -48,7 +48,7 @@
 \renewcommand{\footrulewidth}{.3pt} 
 \renewcommand{\headrulewidth}{.3pt} 
 \lhead{\includegraphics[height=1.2cm]{images/ITA.png}\vspace*{0.1cm}} 
-\chead{\large CMC-12 Lab-5 \vspace*{0.1cm}} 
+\chead{\large CMC-12 - Exame Final \vspace*{0.1cm}} 
 \rhead{} 
 \cfoot{\thepage}
 
@@ -92,7 +92,7 @@
 
 Este relatório apresenta o projeto final desenvolvido na disciplina CMC-12, cujo objetivo é implementar e analisar um controlador não linear para o sistema que consiste em uma barra articulada sobre a qual uma argola pode deslizar livremente, sem atrito. O controle atua sobre o torque aplicado à barra, visando posicionar a argola em uma posição desejada \( x_r \) ao longo da barra, utilizando como única força externa a gravidade.
 
-A solução implementada para projetar o controlador desse sistema permite que o projetista determine o tipo de controlador -- entre P, PI, PD, DI e PID -- e os requisitos de tempo de subida e de sobressinal para posicionar a argola numa barra infinita. Desse modo, é possível determinar o controlador mais eficaz para a barra do tamanho que se deseja projetar e verificar se os requisitos podem ser obedecidos para todas as posições da barra que se deseja projetar.
+A solução implementada para projetar o controlador desse sistema permite que o projetista determine o tipo de controlador -- entre P, PI, PD, DI e PID -- e escolha três tipos de combinação de requisitos no domínio do tempo, sobressinal + tempo de subida, sobressinal + tempo de acomodação e sobressinal + tempo de pico, para posicionar a argola numa barra infinita. Desse modo, é possível determinar o controlador mais eficaz para a barra do tamanho que se deseja projetar e verificar se os requisitos podem ser obedecidos para todas as posições da barra que se deseja projetar.
 
 
 
@@ -200,7 +200,7 @@ Essas expressões representam, respectivamente, a aceleração da argola em fun�
 \section{Projeto do Controlador}
 
 \subsection{Estrutura em Malha Interna e Externa}
-Devido à natureza hierárquica do sistema, em que a posição \( x \) depende do ângulo \( \theta \), que por sua vez depende do torque \( \tau \), adota-se uma abordagem com duas malhas de controle. A malha interna, mais rápida, é responsável por controlar o ângulo da barra a partir do torque aplicado. Para isso, utiliza-se um controlador proporcional com compensação de velocidade (P+V). Já a malha externa, mais lenta, controla a posição da argola ao longo da barra. São testados diferentes controladores (P, PI, PD, PID, Lead), todos com pré-filtro na referência.
+Devido à natureza hierárquica do sistema, em que a posição \( x \) depende do ângulo \( \theta \), que por sua vez depende do torque \( \tau \), adota-se uma abordagem com duas malhas de controle. A malha interna, mais rápida, é responsável por controlar o ângulo da barra a partir do torque aplicado. Para isso, utiliza-se um controlador proporcional com compensação de velocidade (P+V). Já a malha externa, mais lenta, controla a posição da argola ao longo da barra. São testados diferentes controladores (P, PI, PD, DI e PID), todos com pré-filtro na referência para eliminação dos zeros, de forma que seja possível estabelecer uma dinâmica de segunda ordem padrão aproximada para esses controladores.
 
 \subsection{Controladores Utilizados nas Malhas}
 
@@ -208,6 +208,71 @@ A arquitetura de controle adotada é composta por uma estrutura hierárquica com
 
 Para o cálculo dos ganhos dos controladores, considera-se o modelo linearizado do sistema, no qual as não linearidades e forças centrífugas são desprezadas. Os parâmetros são calculados de forma analítica, a partir dos requisitos de desempenho definidos para o sistema. Posteriormente, o projeto é validado no ambiente Simulink, onde o modelo exato do sistema é simulado, incluindo as não linearidades e a força centrífuga que foram omitidas na linearização. Dessa forma, verifica-se se o controlador projetado atende adequadamente ao desempenho esperado quando aplicado ao sistema real.
 
+\subsection{Compensador PID e pré-filtro}
+
+No ambiente do simulink, foram configurados dois blocos referentes à malha externa de posição, um dos blocos consiste em um pré-filtro para a eliminação dos zeros das funções de transferência e outro referentes ao controlador PID geral. A função de transferência da posição $x$ em relação ao referencial $x_r$ é mostrada na equação abaixo.
+
+\[(x_r\cdot F(s)-x)\cdot C(s)\cdot\frac{g}{s^2}=x\]
+
+Em que $x_r$ é a referência de posição, $g$ é gravidade, $C(s)$ é o compensador PID e $F(s)$ é o pré-filtro. As estruturas do pré-filtro e do compensador respectivamente, são apresentas nas equações abaixo. Se deseja-se um controlador PID, calcula-se
+
+\[F(s) = \frac{fK_ps+K_i}{K_ds^2+K_ps+K_i}\]
+\[C(s)=\frac{K_ds^2+K_ps+K_i}{s}\]
+
+Em que $K_d$, $K_p$ e $K_i$ são os ganhos do controlador PID e $f$ é um fator de correção do pré-filtro para que ele sempre elimine os zeros independente do tipo de controlador utilizado.
+
+\subsection{Obtenção analítica de ganhos e definição do controlador}
+
+Os ganhos foram projetados considerando-se sempre uma dinâmica de segunda ordem padrão baseado na combinação de requisitos e no tipo de compensador escolhidos. O valor de $M_p$ é o mesmo para as três combinações.
+\[\xi = \frac{-ln(M_p)}{\sqrt{\pi^2+ln^2(M_p)}}\]
+Caso escolha-se o tempo de subida, $\omega_n$ é dado pela equação abaixo.
+\[\omega_n=\frac{\pi-arccos(\xi)}{t_r\sqrt{1-\xi^2}}\]
+Caso escolha-se o tempo de pico, temos a equação abaixo.
+\[\omega_n=\frac{\pi}{t_p\sqrt{1-\xi^2}}\]
+Por fim, caso seja feita a escolha do tempo de acomodação, obtemos omega pela expressão abaixo.
+\[\omega_n=\frac{3}{\xi t_s}\]
+Com os termos da equação de segunda ordem padrão definidos, é possível determinar os ganhos com base neles. Para um compensador P, fazemos $K_i=0$ e $K_d=0$ e escolhemos o fator $f=1$, assim o pré filtro, o compensador e a equação final do controlador em malha fechada são dados respectivamente pelas equações abaixo.
+
+\[F(s)=1\]
+\[C(s)=K_p\]
+\[G(s)=\frac{K_p}{\frac{1}{g}s^2+K_p}\]
+
+Assim, considerando uma dinâmica de segunda ordem, obtemos que o ganho $K_p$ é dado pela equação abaixo.
+\[K_p=\frac{\omega_n^2}{g}\]
+Esse sistema é marginalmente estável, devido a seus polos no eixo imaginário, ele não diverge para infinito mas oscila infinitamente, não atingindo estabilidade e não sendo adequado para uso como controlador, mas ainda assim ele foi incluído no projeto para evidenciar sua inadequação e sua diferença em relação a outros controladores. Para um compensador PD, fazemos $K_i=0$ e escolhemos o fator $f=1$, assim o pré filtro, o compensador e a equação final do controlador em malha fechada são dados respectivamente pelas equações abaixo.
+
+\[F(s)=\frac{K_p}{K_ds+K_p}\]
+\[C(s)=K_ds+K_p\]
+\[G(s)=\frac{K_p}{\frac{1}{g}s^2+K_ds+K_p}\]
+Assim, considerando uma dinâmica de segunda ordem, obtemos que os ganhos $K_p$ e $K_d$ são dados pela equação abaixo.
+\[K_d=\frac{2\xi\omega_n}{g}\]
+\[K_p=\frac{\omega_n^2}{g}\]
+Esse sistema, por apresentar zeros somente no semiplano esquerdo, é estável e atinge o equilíbrio em regime na referencia. Para um compensador PI, fazemos $K_d=0$ e escolhemos o fator $f=0$, assim o pré filtro, o compensador e a equação final do controlador em malha fechada são dados respectivamente pelas equações abaixo.
+
+\[F(s)=\frac{K_i}{K_ps+K_i}\]
+\[C(s)=\frac{K_ps+K_i}{s}\]
+\[G(s)=\frac{K_i}{\frac{1}{g}s^3+K_ps+Ki}\]
+
+Esse sistema tem três polos, porém o polo real não é distante o suficiente da origem para que os polos complexos sejam dominantes, de forma que esse sistema está sujeito a instabilidades de terceira ordem impossíveis de serem resolvidas. Além disso, os polos complexos conjugados estão no semiplano real positivo, de forma que o sistema é instável e não é adequado para ser usado como controlador, mas ainda assim ele foi incluído no projeto para evidenciar sua inadequação e sua diferença em relação a outros controladores. Mesmo assim, considerando uma dinâmica de segunda ordem, obtemos que os ganhos $K_p$ e $K_i$ são dados pelas equaçõess abaixo.
+\[K_p=\frac{\omega_n^2-4\xi^2\omega_n^2}{g}\]
+\[K_i=\frac{2\xi\omega_n^3}{g}\]
+
+Para o compensador DI, fazemos $K_p=0$ e escolhemos o fator $f=0$, assim o pré filtro, o compensador e a equação final do controlador em malha fechada são dados respectivamente pelas equações abaixo.
+\[F(s)=\frac{K_i}{K_ds^2+K_i}\]
+\[C(s)=\frac{K_ds^2+K_i}{s}\]
+\[G(s)=\frac{K_i}{\frac{1}{g}s^3+K_ds^2+K_i}\]
+Esse sistema apresenta a mesma estrutura de polos do compensador PI, o polo real é próximo da origem de forma que os polos complexos não são dominantes, e os polos complexos estão no semiplano real positivo, de forma que esse controlador é instável e não é adequado para uso, mas ainda assim ele foi incluído no projeto para evidenciar sua inadequação e sua diferença em relação a outros controladores. De qualquer modo, os ganhos $K_d$ e $K_i$ são dados pelas equações abaixo.
+\[K_d=\frac{\omega_n-4\xi^2\omega_n}{2\xi g}\]
+\[K_i=\frac{\omega_n^3}{2\xi g}\]
+Por fim, para o compensador PID, escolhemos o fator $f=0$, assim o pré filtro, o compensador e a equação final do controlador em malha fechada são dados respectivamente pelas equações abaixo.
+\[F(s)=\frac{K_i}{K_ds^2+K_ps+K_i}\]
+\[C(s)=\frac{K_ds^2+K_ps+K_i}{s}\]
+\[G(s)=\frac{K_i}{\frac{1}{g}s^3+K_ds^2+K_ps+K_i}\]
+Com três ganhos, o polo real não fica determinado com base nos outros polos, de forma que podemos escolhê-lo de forma que os polos complexos sejam dominantes, além disso, os polos complexos estão no semiplano real negativo, o que indica que esse sistema é adequado para ser utilizado como controlador. Os ganhos $K_d$, $K_p$ e $K_i$ respectivamente são dados pelas equações abaixo.
+\[K_d=\frac{7\xi\omega_n}{g}\]
+\[K_p=\frac{10\xi^2\omega_n^2+\omega_n^2}{g}\]
+\[K_i=\frac{5\xi\omega_n^3}{g}\]
+As equações dos ganhos com base nos requisitos foram implementadas no matlab para serem usadas no modelo geral do controlador.
 
 \section{Simulações e Resultados}
 
