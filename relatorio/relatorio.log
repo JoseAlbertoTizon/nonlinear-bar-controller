@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2025.3.10)  7 JUL 2025 23:09
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2025.3.10)  7 JUL 2025 23:49
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -331,7 +331,11 @@ Package: multirow 2021/03/15 v2.8 Span multiple rows of a table
 \multirow@cntb=\count310
 \multirow@dima=\skip70
 \bigstrutjot=\dimen257
-) (./relatorio.aux)
+) (./relatorio.aux
+
+LaTeX Warning: Label `fig:resultado-controladores' multiply defined.
+
+)
 \openout1 = `relatorio.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 38.
@@ -465,24 +469,38 @@ File: images/ITA.png Graphic file (type png)
 Package pdftex.def Info: images/ITA.png  used on input line 271.
 (pdftex.def)             Requested size: 89.16086pt x 34.14322pt.
  [6]
+<images/teste_xr_PD_tr_3.0_Mp_0.1.png, id=43, 880.79062pt x 243.91125pt>
+File: images/teste_xr_PD_tr_3.0_Mp_0.1.png Graphic file (type png)
+<use images/teste_xr_PD_tr_3.0_Mp_0.1.png>
+Package pdftex.def Info: images/teste_xr_PD_tr_3.0_Mp_0.1.png  used on input line 284.
+(pdftex.def)             Requested size: 483.69687pt x 133.9469pt.
 File: images/ITA.png Graphic file (type png)
 <use images/ITA.png>
-Package pdftex.def Info: images/ITA.png  used on input line 292.
+Package pdftex.def Info: images/ITA.png  used on input line 290.
 (pdftex.def)             Requested size: 89.16086pt x 34.14322pt.
- [7 <./images/comparar-controlador.png (PNG copy)>] (./relatorio.aux) ) 
+ [7 <./images/comparar-controlador.png (PNG copy)> <./images/teste_xr_PD_tr_3.0_Mp_0.1.png>]
+File: images/ITA.png Graphic file (type png)
+<use images/ITA.png>
+Package pdftex.def Info: images/ITA.png  used on input line 299.
+(pdftex.def)             Requested size: 89.16086pt x 34.14322pt.
+ [8] (./relatorio.aux)
+
+LaTeX Warning: There were multiply-defined labels.
+
+ ) 
 Here is how much of TeX's memory you used:
- 12378 strings out of 478287
- 250305 string characters out of 5849289
- 632661 words of memory out of 5000000
- 30426 multiletter control sequences out of 15000+600000
+ 12385 strings out of 478287
+ 250581 string characters out of 5849289
+ 632700 words of memory out of 5000000
+ 30432 multiletter control sequences out of 15000+600000
  479456 words of font info for 55 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 71i,16n,79p,839b,513s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 71i,16n,79p,1221b,513s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-t1.enc}</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1440.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1728.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1440.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1728.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm2488.pfb>
-Output written on relatorio.pdf (8 pages, 285428 bytes).
+Output written on relatorio.pdf (9 pages, 322108 bytes).
 PDF statistics:
- 114 PDF objects out of 1000 (max. 8388607)
- 69 compressed objects within 1 object stream
+ 120 PDF objects out of 1000 (max. 8388607)
+ 72 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 11 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 16 words of extra memory for PDF output out of 10000 (max. 10000000)
 

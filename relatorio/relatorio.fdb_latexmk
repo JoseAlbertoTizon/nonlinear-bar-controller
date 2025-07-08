@@ -1,7 +1,7 @@
 # Fdb version 3
-["pdflatex"] 1751940558 "/home/danilo/Desktop/ITA/CMC12_Manga/nonlinear-bar-controller/relatorio/relatorio.tex" "relatorio.pdf" "relatorio" 1751940558
+["pdflatex"] 1751942999 "/home/danilo/Desktop/ITA/CMC12_Manga/nonlinear-bar-controller/relatorio/relatorio.tex" "relatorio.pdf" "relatorio" 1751943000
   "/etc/texmf/web2c/texmf.cnf" 1712008470 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/danilo/Desktop/ITA/CMC12_Manga/nonlinear-bar-controller/relatorio/relatorio.tex" 1751940558 18688 027f7d4ae001a525a22ae73204927931 ""
+  "/home/danilo/Desktop/ITA/CMC12_Manga/nonlinear-bar-controller/relatorio/relatorio.tex" 1751942998 21595 df48c2dad05d01f19d8b893e026f5657 ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/ecbx1440.tfm" 1136768653 3584 13049b61b922a28b158a38aeff75ee9b ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/ecbx1728.tfm" 1136768653 3584 ad49a18d8515beef6d92d4d3f197d0fd ""
@@ -110,8 +110,9 @@
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1741660600 2798872 14a4f75fb5b630416f732c2218f4a904 ""
   "images/ITA.png" 1691865326 22987 2aa99811df21c653bb7e4ba787ea2e2a ""
   "images/comparar-controlador.png" 1751939563 53435 00d623791c2eca9402a1ddbb05c251cd ""
-  "relatorio.aux" 1751940558 2329 1cc82b3be5ad182cdd85540912ad89e4 "pdflatex"
-  "relatorio.tex" 1751940558 18688 027f7d4ae001a525a22ae73204927931 ""
+  "images/teste_xr_PD_tr_3.0_Mp_0.1.png" 1751942900 54231 084b329e5447fdaa5998f80d03048424 ""
+  "relatorio.aux" 1751942999 2478 bf39f97f217d051cf882bd7f8c61bb67 "pdflatex"
+  "relatorio.tex" 1751942998 21595 df48c2dad05d01f19d8b893e026f5657 ""
   (generated)
   "relatorio.aux"
   "relatorio.log"
