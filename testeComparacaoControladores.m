@@ -1,4 +1,4 @@
-function teste_comparacao_controladores()
+function testeComparacaoControladores()
 % Compara diferentes tipos de controladores para a mesma referência
 % Gera gráficos comparativos de desempenho (posição, ângulo e torque)
 
