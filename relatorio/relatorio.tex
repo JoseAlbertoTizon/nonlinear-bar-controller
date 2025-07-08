@@ -274,16 +274,26 @@ Com três ganhos, o polo real não fica determinado com base nos outros polos, d
 \[K_i=\frac{5\xi\omega_n^3}{g}\]
 As equações dos ganhos com base nos requisitos foram implementadas no matlab para serem usadas no modelo geral do controlador.
 
-\section{Simulações e Resultados}
+\section{Resultados e Discussão}
 
-\subsection{Descrição dos Casos Simulados}
-Foram simulados diferentes casos, variando-se as condições iniciais da argola e da barra, bem como os valores de referência \( x_r \). O objetivo foi verificar o comportamento do sistema sob diferentes regimes de operação e testar a robustez dos controladores projetados.
+\subsection{Comparação entre simuladores}
 
-\subsection{Resultados}
-Os gráficos obtidos mostram a evolução temporal da posição da argola \( x(t) \), do ângulo da barra \( \theta(t) \), do torque aplicado \( \tau(t) \), bem como do erro de rastreamento \( x(t) - x_r \). Esses resultados permitem avaliar o desempenho do sistema de controle em termos de estabilidade, precisão e tempo de resposta.
+Inicialmente, foi realizada uma comparação entre os tipos de controladores disponíveis para analisar qual deles se adequa melhor ao sistema ;;;
 
-\subsection{Análise dos Resultados}
-A partir das simulações, observa-se o comportamento dinâmico do sistema frente a diferentes controladores e referências. São analisados aspectos como a estabilidade do sistema, o tempo de acomodação, a presença de oscilações, e a robustez frente a variações nos parâmetros do modelo. Resultados satisfatórios indicam que a estratégia de controle adotada foi eficaz dentro das condições simuladas.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{images/comparar-controlador.png}
+    \caption{\centering Tipos de controlador}
+    \label{fig:resultado-controladores}
+\end{figure}
+
+\subsection{Avaliação de diferentes referências}
+
+% José
+
+\subsection{Avaliação de diferentes tipos de requisitos}
+
+% Sexta
 
 \section{Conclusão}
 O desenvolvimento deste projeto permitiu compreender os principais desafios envolvidos no controle de sistemas não lineares, especialmente na presença de malhas hierárquicas e interdependentes. A estratégia de controle adotada, com malhas interna e externa, mostrou-se efetiva para garantir o rastreamento da posição desejada pela argola, mesmo em condições adversas. Como possíveis extensões do trabalho, sugere-se a análise do sistema com perturbações externas, como atrito ou impa
