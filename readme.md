@@ -137,8 +137,8 @@ Este script:
 - Testa um controlador específico (configurável) com múltiplas referências
 - Analisa como Mp, tr, ts e erro em regime permanente variam com a referência
 - Gera gráficos mostrando:
-  - Respostas temporais para diferentes referências
-  - Métricas de desempenho vs. valor da referência
+- Respostas temporais para diferentes referências
+- Métricas de desempenho vs. valor da referência
 - Salva os resultados em `diferentes_referencias.png`
 - Exibe tabela resumo com todas as métricas
 
